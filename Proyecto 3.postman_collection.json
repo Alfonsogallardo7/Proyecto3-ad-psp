@@ -329,13 +329,40 @@
 				},
 				{
 					"name": "Login Propietario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"josemanuelgomez@openwebinars.net\",\n    \"password\":\"JoseManuelGomez1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "Login Propietario",
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
 							"host": [
-								"Login Propietario"
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
 							]
 						}
 					},
@@ -349,6 +376,16 @@
 				{
 					"name": "Propietario All",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
