@@ -19,11 +19,31 @@ public class UserController {
     private final UserEntityService userEntityService;
     private final UserDtoConverter userDtoConverter;
 
-    @PostMapping("/auth/register")
-    public ResponseEntity<GetUserDto> nuevoUsuario(@RequestBody CreateUserDto newUser) {
+    @PostMapping("/auth/register/admin")
+    public ResponseEntity<GetUserDto> nuevoUsuarioAdmin(@RequestBody CreateUserDto newUser) {
         UserEntity saved = userEntityService.save(newUser);
 
         if (saved == null)
+            return ResponseEntity.badRequest().build();
+        else
+            return ResponseEntity.ok(userDtoConverter.convertUserEntityToGetUserDto(saved));
+
+    }
+    @PostMapping("/auth/register/user")
+    public ResponseEntity<GetUserDto> nuevoUsuarioUser(@RequestBody CreateUserDto newUser) {
+        UserEntity saved = userEntityService.save(newUser);
+
+        if (saved == null)
+            return ResponseEntity.badRequest().build();
+        else
+            return ResponseEntity.ok(userDtoConverter.convertUserEntityToGetUserDto(saved));
+
+    }
+    @PostMapping("/auth/register/gestor")
+    public ResponseEntity<GetUserDto> nuevoUsuarioGestor(@RequestBody CreateUserDto newUser) {
+        UserEntity saved = userEntityService.save(newUser);
+
+        if (saved == null )
             return ResponseEntity.badRequest().build();
         else
             return ResponseEntity.ok(userDtoConverter.convertUserEntityToGetUserDto(saved));

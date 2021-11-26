@@ -1,6 +1,7 @@
 package com.dam.grupo2.realstate.model;
 
 
+import com.dam.grupo2.realstate.users.model.UserRole;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -56,6 +57,8 @@ public class Vivienda {
     private boolean tieneAscensor;
 
     private boolean tieneGaraje;
+
+    private UserRole users;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_usuario")

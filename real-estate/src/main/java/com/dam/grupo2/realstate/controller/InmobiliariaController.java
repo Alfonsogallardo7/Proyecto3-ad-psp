@@ -44,10 +44,10 @@ public class InmobiliariaController {
     @GetMapping("/")
     public ResponseEntity<Page<GetInmobiliariaDto>> findAllByUserAutenticated (@PageableDefault(size=10, page=0) Pageable pageable, HttpServletRequest request, @AuthenticationPrincipal UserEntity user){
         Page<Inmobiliaria> data= inmoService.findAll(pageable);
-        if (user.getRole() == UserRole.USER) {
+        if (user.getRole().equals(UserRole.ADMIN)||user.getRole().equals(UserRole.PROPIETARIO)||user.getRole().equals(UserRole.GESTOR)) {
             data = inmoService.findAll(pageable);
         }else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(403).build();
         }
         if (data.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -63,10 +63,9 @@ public class InmobiliariaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetInmobiliariaDto> findById(@PathVariable Long id){
+    public ResponseEntity<GetInmobiliariaDto> findById(@PathVariable Long id, @AuthenticationPrincipal UserEntity user){
 
         Optional<Inmobiliaria> inmoBuscada = inmoService.findById(id);
-
         if(inmoBuscada.isEmpty())
             return ResponseEntity.notFound().build();
         else

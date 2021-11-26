@@ -12,6 +12,7 @@ import com.dam.grupo2.realstate.users.model.UserEntity;
 import com.dam.grupo2.realstate.users.model.UserRole;
 import com.dam.grupo2.realstate.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.User;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -30,16 +31,6 @@ public class MainDePrueba {
 
     @PostConstruct
     public void DatosDePrueba() {
-
-        UserEntity user1 = UserEntity.builder()
-                .email("admin@openwebinars.net")
-                .password("Admin1")
-                .avatar("admin@openwebinars.net.png")
-                .fullName("Admin admin")
-                .role(UserRole.ADMIN)
-                .createdAt(null)
-                .build();
-        userEntityService.save(user1);
 
         Vivienda vivienda1 = Vivienda.builder()
                 .titulo("Casa1")
@@ -89,11 +80,17 @@ public class MainDePrueba {
                 .telefono("656565665")
                 .build();
 
+        Inmobiliaria inmo2 = Inmobiliaria.builder()
+                .nombre("inmo2")
+                .email("elemail1@gmail.com")
+                .telefono("656565665")
+                .build();
+
         vivienda1.addInmobiliaria(inmo1);
         vivienda2.addInmobiliaria(inmo1);
 
         inmobiliariaService.save(inmo1);
-
+        inmobiliariaService.save(inmo2);
 
 
         Usuario int1 = Usuario.builder()
@@ -103,6 +100,7 @@ public class MainDePrueba {
                 .email("deluna.rodan21@triana.salesianos.edu")
                 .telefono("674838160")
                 .avatar("http://avatar.jpg")
+                .role(UserRole.PROPIETARIO)
                 .build();
 
         usuarioService.save(int1);
@@ -116,7 +114,7 @@ public class MainDePrueba {
         interesaService.save(interesa);
 
 
-        interesa.addInteresadoVivienda(int1,vivienda1);
+        interesa.addInteresadoVivienda(int1, vivienda1);
 
         viviendaService.save(vivienda1);
         viviendaService.save(vivienda2);
@@ -129,6 +127,7 @@ public class MainDePrueba {
                 .email("alfonsogallardo@gmail.com")
                 .telefono("666777999")
                 .avatar("URL")
+                .role(UserRole.GESTOR)
                 .build();
 
 
@@ -147,6 +146,7 @@ public class MainDePrueba {
                 .email("alfonsogallardo@gmail.com")
                 .telefono("666777999")
                 .avatar("URL")
+                .role(UserRole.ADMIN)
                 .build();
 
         usuarioService.save(usuario1);
@@ -154,10 +154,4 @@ public class MainDePrueba {
 
 
     }
-
-
-
-
-
-
 }

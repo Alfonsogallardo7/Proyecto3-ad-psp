@@ -1,5 +1,6 @@
 package com.dam.grupo2.realstate.dto;
 
+import com.dam.grupo2.realstate.model.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,6 @@ public class CreateViviendaDto {
     private boolean tieneAscensor;
     private boolean tieneGaraje;
     private Long interesado_id;
+    private Usuario ususario;
 
 }

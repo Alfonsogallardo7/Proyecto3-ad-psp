@@ -41,11 +41,9 @@ public class UsuarioController {
             @ApiResponse(code = HttpServletResponse.SC_OK, message = "Se a encontrado la lista de propietarios y se ha devuelto correctamente."),
             @ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "No se ha encontrado la lista de propietarios.") })
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/")
-    public ResponseEntity<Page<GetUsuarioDto>> findAll(@PageableDefault(size=10, page=0) Pageable pageable, HttpServletRequest request ){
+    public ResponseEntity<Page<GetUsuarioDto>> findAll(@PageableDefault(size=10, page=0) Pageable pageable, HttpServletRequest request ,@AuthenticationPrincipal UserEntity user){
         Page<Usuario> data= services.findAll(pageable);
-
         if (data.isEmpty()){
             return ResponseEntity.notFound().build();
         }else {

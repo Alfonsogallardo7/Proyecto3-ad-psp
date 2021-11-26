@@ -7,6 +7,8 @@ import com.dam.grupo2.realstate.model.Vivienda;
 import com.dam.grupo2.realstate.service.InmobiliariaService;
 import com.dam.grupo2.realstate.service.UsuarioService;
 import com.dam.grupo2.realstate.service.ViviendaService;
+import com.dam.grupo2.realstate.users.model.UserEntity;
+import com.dam.grupo2.realstate.users.model.UserRole;
 import com.dam.grupo2.realstate.util.PaginationLinksUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -47,10 +50,10 @@ public class ViviendaController {
             @ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "No se ha encontrado la lista de viviendas.") })
 
     @GetMapping("/")
-    public ResponseEntity<Page<GetViviendaDto>> findAll(@PageableDefault(size=10, page=0) Pageable pageable, HttpServletRequest request) {
+    public ResponseEntity<Page<GetViviendaDto>> findAll(@PageableDefault(size=10, page=0) Pageable pageable, HttpServletRequest request, @AuthenticationPrincipal UserEntity user) {
         Page<Vivienda> data = vService.findAll(pageable);
-        if (data.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            if (data.isEmpty()) {
+                return ResponseEntity.notFound().build();
         } else {
             Page<GetViviendaDto> result =
                     data.map(dtoConverter::viviendaToGetViviendaDto);
@@ -69,7 +72,7 @@ public class ViviendaController {
             @ApiResponse(code = HttpServletResponse.SC_OK, message = "Se a encontrado la vivienda"),
             @ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "No se ha encontrado la vivienda") })
     @GetMapping("/{id}")
-    public ResponseEntity<GetViviendaDto> findById(@PathVariable Long id){
+    public ResponseEntity<GetViviendaDto> findById(@PathVariable Long id, @AuthenticationPrincipal UserEntity user){
 
         Optional<Vivienda> viviendaBuscada = vService.findById(id);
 
@@ -86,7 +89,7 @@ public class ViviendaController {
 
 
     @CrossOrigin
-    public ResponseEntity<GetViviendaDto> create(@RequestBody CreateViviendaUsuarioDto viviendaACrear){
+    public ResponseEntity<GetViviendaDto> create(@RequestBody CreateViviendaUsuarioDto viviendaACrear, @AuthenticationPrincipal UserEntity user){
 
         Vivienda v = dtoViviendaPropConverter.CreateViviendaUsuarioDtoToVivienda(viviendaACrear);
 
@@ -131,7 +134,7 @@ public class ViviendaController {
             @ApiResponse(code = HttpServletResponse.SC_OK, message = "Se ha modificado correctamente la vivienda."),
             @ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "No se ha podido modificar, no existe la vivienda.") })
     @PutMapping("/{id}")
-    public ResponseEntity<Vivienda> edit(@RequestBody Vivienda v, @PathVariable Long id){
+    public ResponseEntity<Vivienda> edit(@RequestBody Vivienda v, @PathVariable Long id, @AuthenticationPrincipal UserEntity user){
         return ResponseEntity.of(
                 vService.findById(id).map(ev ->{
                     ev.setTitulo(v.getTitulo());
@@ -158,16 +161,21 @@ public class ViviendaController {
     @ApiOperation(value = "Delete", notes = "Borra la vivienda seleccionada")
     @ApiResponses({
             @ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Se ha borrado correctamente")})
+            @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN, message = "No tiene el roll asignado")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id, @AuthenticationPrincipal UserEntity user){
 
         Optional<Vivienda> viviendaABorrar = vService.findById(id);
 
-        viviendaABorrar.ifPresent(v -> {
-            v.removeInmobiliaria();
-            v.removeUsuario();
-            vService.deleteById(id);
-        });
+        if ((user.getId().equals(viviendaABorrar.get().getId()) && user.getRole()== UserRole.PROPIETARIO) || user.getRole() == UserRole.ADMIN) {
+
+            viviendaABorrar.ifPresent(v -> {
+                v.removeInmobiliaria();
+                v.removeUsuario();
+                vService.deleteById(id);
+            });
+        } else
+            return ResponseEntity.status(403).build();
 
         return ResponseEntity.noContent().build();
 

@@ -1,5 +1,6 @@
 package com.dam.grupo2.realstate.dto;
 
+import com.dam.grupo2.realstate.model.Usuario;
 import lombok.*;
 
 @NoArgsConstructor @AllArgsConstructor
@@ -26,4 +27,5 @@ public class GetViviendaDto {
     private boolean tienePiscina;
     private boolean tieneAscensor;
     private boolean tieneGaraje;
+    private Usuario usuario;
 }

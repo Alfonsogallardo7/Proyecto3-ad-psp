@@ -4,6 +4,7 @@ import com.dam.grupo2.realstate.dto.*;
 import com.dam.grupo2.realstate.model.*;
 import com.dam.grupo2.realstate.service.UsuarioService;
 import com.dam.grupo2.realstate.service.ViviendaService;
+import com.dam.grupo2.realstate.users.model.UserEntity;
 import com.dam.grupo2.realstate.util.PaginationLinksUtils;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -46,7 +48,7 @@ public class InteresadoController {
    private final PaginationLinksUtils paginationLinksUtils;
 
     @PostMapping("/vivienda/{id}/meinteresa")
-    public ResponseEntity<Interesa> create(@PathVariable Long id , @RequestBody CreateViviendaUsuarioDto cvid){
+    public ResponseEntity<Interesa> create(@PathVariable Long id , @RequestBody CreateViviendaUsuarioDto cvid, @AuthenticationPrincipal UserEntity user){
         Optional<Usuario> intAAniadir = usuarioService.findById(cvid.getIdUsuario());
         Optional<Vivienda> v = viviendaService.findById(id);
         Usuario p = (Usuario)viviendaInteresadoDtoConverter.CreateViviendaUsuarioDtoToUsuario(cvid);

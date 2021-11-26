@@ -37,7 +37,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                     .avatar(newUser.getAvatar())
                     .fullName(newUser.getFullname())
                     .email(newUser.getEmail())
-                    .role(UserRole.USER)
+                    .role(UserRole.PROPIETARIO)
                     .build();
             return save(userEntity);
         } else {

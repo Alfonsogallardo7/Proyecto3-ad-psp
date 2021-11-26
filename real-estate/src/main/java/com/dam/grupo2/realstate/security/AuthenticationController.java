@@ -6,6 +6,7 @@ import com.dam.grupo2.realstate.security.dto.LoginDto;
 import com.dam.grupo2.realstate.security.jwt.JwtProvider;
 import com.dam.grupo2.realstate.users.model.UserEntity;
 import com.dam.grupo2.realstate.users.model.UserRole;
+import com.dam.grupo2.realstate.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final UserEntityService userEntityService;
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
@@ -53,9 +55,10 @@ public class AuthenticationController {
 
     @PostMapping("/auth/register/user")
     public ResponseEntity<?> register (@RequestBody UserEntity newUser) {
-        if (newUser.getEmail() == null) {
+        if (newUser == null ) {
             return ResponseEntity.badRequest().build();
         } else {
+            userEntityService.save(newUser);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(convertUserToJwtUserResponse(newUser, null));
