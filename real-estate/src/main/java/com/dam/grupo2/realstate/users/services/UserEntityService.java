@@ -32,12 +32,13 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     public UserEntity save(CreateUserDto newUser) {
         if (newUser.getPassword().contentEquals(newUser.getPassword2())) {
+
             UserEntity userEntity = UserEntity.builder()
                     .password(passwordEncoder.encode(newUser.getPassword()))
                     .avatar(newUser.getAvatar())
-                    .fullName(newUser.getFullname())
+                    .fullName(newUser.getFullName())
                     .email(newUser.getEmail())
-                    .role(UserRole.PROPIETARIO)
+                    .role(UserRole.valueOf(newUser.getRole()))
                     .build();
             return save(userEntity);
         } else {

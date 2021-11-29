@@ -1,6 +1,7 @@
 package com.dam.grupo2.realstate.model;
 
 
+import com.dam.grupo2.realstate.users.model.UserEntity;
 import com.dam.grupo2.realstate.users.model.UserRole;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -62,7 +63,7 @@ public class Vivienda {
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    private UserEntity usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_inmobiliaria")
@@ -118,14 +119,14 @@ public class Vivienda {
         inmobiliaria = null;
     }
 
-    public void addUsuario(Usuario prop) {
-        if (prop instanceof Usuario) {
-            this.usuario = (Usuario) prop;
-            if (((Usuario) prop).getViviendas() == null) {
-                ((Usuario) prop).setViviendas(new ArrayList());
-                ((Usuario) prop).getViviendas().add(this);
+    public void addUsuario(UserEntity prop) {
+        if (prop instanceof UserEntity) {
+            this.usuario = (UserEntity) prop;
+            if (((UserEntity) prop).getViviendas() == null) {
+                ((UserEntity) prop).setViviendas(new ArrayList());
+                ((UserEntity) prop).getViviendas().add(this);
             } else {
-                ((Usuario) prop).getViviendas().add(this);
+                ((UserEntity) prop).getViviendas().add(this);
             }
         }
     }

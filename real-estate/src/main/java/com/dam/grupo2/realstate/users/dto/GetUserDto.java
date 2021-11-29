@@ -9,8 +9,6 @@ import lombok.*;
 @Builder
 public class GetUserDto {
 
-    private String avatar;
-    private String fullName;
-    private String email;
-    private String role;
+    private String nombre, apellidos, direccion, email, telefono, password, avatar, fullName, role;
+    private Long vivienda_id;
 }

@@ -53,7 +53,7 @@ public class AuthenticationController {
 
     }
 
-    @PostMapping("/auth/register/user")
+    /*@PostMapping("/auth/register/user")
     public ResponseEntity<?> register (@RequestBody UserEntity newUser) {
         if (newUser == null ) {
             return ResponseEntity.badRequest().build();
@@ -64,7 +64,7 @@ public class AuthenticationController {
                     .body(convertUserToJwtUserResponse(newUser, null));
         }
 
-    }
+    }*/
 
     @GetMapping("/me")
     public ResponseEntity<?> quienSoyYo(@AuthenticationPrincipal UserEntity user){

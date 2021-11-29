@@ -25,7 +25,6 @@ public class MainDePrueba {
     private final ViviendaService viviendaService;
     private final InteresaService interesaService;
     private final InmobiliariaService inmobiliariaService;
-    private final UsuarioService usuarioService;
     private final UserEntityService userEntityService;
 
 
@@ -103,7 +102,7 @@ public class MainDePrueba {
                 .role(UserRole.PROPIETARIO)
                 .build();
 
-        usuarioService.save(int1);
+        userEntityService.save(int1);
 
         Interesa interesa = Interesa.builder()
                 .usuario(int1)
@@ -120,7 +119,7 @@ public class MainDePrueba {
         viviendaService.save(vivienda2);
 
 
-        Usuario usuario1 = Usuario.builder()
+        UserEntity usuario1 = UserEntity.builder()
                 .nombre("Alfonso")
                 .apellidos("Gallardo Rodríguez")
                 .direccion("Canarias 114")
@@ -134,7 +133,7 @@ public class MainDePrueba {
         vivienda1.addUsuario(usuario1);
         vivienda2.addUsuario(usuario1);
 
-        usuarioService.save(usuario1);
+        Service.save(usuario1);
 
         viviendaService.save(vivienda1);
         viviendaService.save(vivienda2);

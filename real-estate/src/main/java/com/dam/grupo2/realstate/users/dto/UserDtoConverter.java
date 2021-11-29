@@ -10,7 +10,10 @@ public class UserDtoConverter {
 
     public GetUserDto convertUserEntityToGetUserDto(UserEntity user) {
         return GetUserDto.builder()
+                .nombre(user.getNombre())
+                .apellidos(user.getApellidos())
                 .avatar(user.getAvatar())
+                .direccion(user.getDireccion())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .role(user.getRole().name())

@@ -1,23 +1,14 @@
 package com.dam.grupo2.realstate.users.model;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.dam.grupo2.realstate.model.Inmobiliaria;
+import com.dam.grupo2.realstate.model.Interesa;
+import com.dam.grupo2.realstate.model.Vivienda;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Parameter;
@@ -56,9 +47,17 @@ public class UserEntity implements UserDetails {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    private String nombre;
+
+    private String apellidos;
+
+    private String direccion;
+
     @NaturalId
     @Column(unique = true, updatable = false)
     private String email;
+
+    private String telefono;
 
     private String password;
 
@@ -68,6 +67,52 @@ public class UserEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "usuario")
+    private List<Interesa> interesa = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "inmobiliaria", foreignKey = @ForeignKey(name = "FK_VIVIENDA_INMOBILIARIA"))
+    private Inmobiliaria inmobiliaria;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "usuario")
+    List<Vivienda> viviendas = new ArrayList<>();
+
+    public UserEntity(String nombre, String apellidos, String email, String telefono, String password, String avatar, String fullName, UserRole role, Inmobiliaria inmobiliaria, LocalDateTime lastPasswordChangeAt) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.telefono = telefono;
+        this.password = password;
+        this.avatar = avatar;
+        this.fullName = fullName;
+        this.role = role;
+        this.inmobiliaria = inmobiliaria;
+        this.lastPasswordChangeAt = lastPasswordChangeAt;
+    }
+
+    public UserEntity(String nombre, String apellidos, String email, String telefono, String password, String avatar, String fullName, UserRole role, List<Interesa> interesa, Inmobiliaria inmobiliaria, List<Vivienda> viviendas, LocalDateTime createdAt) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.telefono = telefono;
+        this.password = password;
+        this.avatar = avatar;
+        this.fullName = fullName;
+        this.role = role;
+        this.interesa = interesa;
+        this.inmobiliaria = inmobiliaria;
+        this.viviendas = viviendas;
+        this.createdAt = createdAt;
+    }
+
+    @PreRemove
+    private void removeUsuarioFromVivienda(){
+        viviendas.forEach(v -> v.setUsuario(null));
+    }
+
 
     @CreatedDate
     private LocalDateTime createdAt;
