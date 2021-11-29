@@ -45,4 +45,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             return null;
         }
     }
+
+
 }

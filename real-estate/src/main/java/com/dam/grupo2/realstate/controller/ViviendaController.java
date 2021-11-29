@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -43,6 +44,16 @@ public class ViviendaController {
     private final InmobiliariaService inmoService;
     private final ViviendaInmobiliariaDtoConverter dtoViviendaInmobiliariaConverter;
     private final PaginationLinksUtils paginationLinksUtils;
+
+
+    @GetMapping("/propietario")
+    public ResponseEntity<List<GetViviendaPropietarioDto>> findViviendaByPropietario (@AuthenticationPrincipal UserEntity user) {
+        List<GetViviendaPropietarioDto> data = vService.findByPropietario(user.getId());
+        if (data.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok().body(vService.findByPropietario(user.getId()));
+    }
 
     @ApiOperation(value = "Get", notes = "Devuelve una lista con todos las viviendas registradas.")
     @ApiResponses({
@@ -110,7 +121,7 @@ public class ViviendaController {
         }
         else{
             usuarioService.findById(viviendaACrear.getIdUsuario()).ifPresent(propBuscado ->{
-                Optional<Usuario> propietarioAsociado = usuarioService.findById(viviendaACrear.getIdUsuario());
+                Optional<UserEntity> propietarioAsociado = usuarioService.findById(viviendaACrear.getIdUsuario());
                 if(viviendaACrear.getIdInmobiliaria()!=null){
                     Optional<Inmobiliaria> inmobiliariaAsociada = inmoService.findById(viviendaACrear.getIdInmobiliaria());
                     if(inmobiliariaAsociada.isPresent())
