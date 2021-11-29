@@ -30,6 +30,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     }
 
 
+    // TODO Si este es el único método para dar de alta usuarios, solamente se pueden dar de alta propietarios
     public UserEntity save(CreateUserDto newUser) {
         if (newUser.getPassword().contentEquals(newUser.getPassword2())) {
             UserEntity userEntity = UserEntity.builder()

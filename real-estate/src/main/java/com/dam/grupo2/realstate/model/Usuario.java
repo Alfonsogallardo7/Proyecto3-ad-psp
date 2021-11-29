@@ -18,7 +18,7 @@ import java.util.UUID;
 @SuperBuilder @AllArgsConstructor @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 
-public class Usuario {
+public class Usuario { // TODO ¿Qué diferencia hay entre esta entidad y UserEntity? ¿Cuál de las dos se usa para el Login? ¿Cuál para las asociacones?
 
     @Id
     @GeneratedValue

@@ -53,7 +53,8 @@ public class AuthenticationController {
 
     }
 
-    @PostMapping("/auth/register/user")
+    /*
+    @PostMapping("/auth/register/user") // TODO Repetido con un método con la misma ruta en UserController. Comento este para intentar ejecutar
     public ResponseEntity<?> register (@RequestBody UserEntity newUser) {
         if (newUser == null ) {
             return ResponseEntity.badRequest().build();
@@ -65,6 +66,8 @@ public class AuthenticationController {
         }
 
     }
+
+     */
 
     @GetMapping("/me")
     public ResponseEntity<?> quienSoyYo(@AuthenticationPrincipal UserEntity user){

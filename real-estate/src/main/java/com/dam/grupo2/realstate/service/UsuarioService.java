@@ -9,5 +9,6 @@ import org.springframework.stereotype.Service;
 public class UsuarioService
         extends BaseService<Usuario,Long, UsuarioRepository> {
 
+    // TODO Hay 2 servicios para la gestión de usuarios. Este, y el servicio UserEntityService
 
 }

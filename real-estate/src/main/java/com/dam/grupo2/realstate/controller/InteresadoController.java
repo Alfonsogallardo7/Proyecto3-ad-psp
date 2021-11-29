@@ -71,7 +71,7 @@ public class InteresadoController {
     @ApiResponses({
             @ApiResponse(code = HttpServletResponse.SC_OK, message = "Se a encontrado la lista de usuarios interesados y se ha devuelto correctamente."),
             @ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "No se ha encontrado la lista de interesados.") })
-    @GetMapping("/")
+    @GetMapping("/") // TODO Este método ¿qué hace realmente? No trae a los "INTERESADOS" (a.k.a. usuarios que tienen interés en una vivienda) sino a todos los usuarios
     @CrossOrigin
     public ResponseEntity<Page<GetUsuarioDto>> findAll(@PageableDefault(size=10, page=0) Pageable pageable, HttpServletRequest request){
         Page<Usuario> data= usuarioService.findAll(pageable);

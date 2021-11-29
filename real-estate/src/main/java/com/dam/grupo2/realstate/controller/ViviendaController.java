@@ -167,6 +167,7 @@ public class ViviendaController {
 
         Optional<Vivienda> viviendaABorrar = vService.findById(id);
 
+        // TODO Cuando se elimina una vivienda dos veces da un error por la siguiente línea de código
         if ((user.getId().equals(viviendaABorrar.get().getId()) && user.getRole()== UserRole.PROPIETARIO) || user.getRole() == UserRole.ADMIN) {
 
             viviendaABorrar.ifPresent(v -> {

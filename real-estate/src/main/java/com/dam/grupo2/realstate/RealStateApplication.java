@@ -10,4 +10,6 @@ public class RealStateApplication {
 		SpringApplication.run(RealStateApplication.class, args);
 	}
 
+	// TODO Ver los comentarios en el fichero import.sql
+
 }

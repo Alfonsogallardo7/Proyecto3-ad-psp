@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
+
+                // TODO Todas estas rutas se pueden agrupar para tener un método menos complejo
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth/register/user", "/auth/login").anonymous()
                 .antMatchers(HttpMethod.POST, "/auth/register/gestor", "inmobiliaria").hasRole("ADMIN")

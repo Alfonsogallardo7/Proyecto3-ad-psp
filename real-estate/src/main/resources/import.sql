@@ -1,6 +1,8 @@
 --drop sequence if exists hibernate_sequence;
 --create sequence hibernate_sequence start with 1000 increment by 1;
 
+
+
 -- Contraseña: Admin1
 insert into users (id, full_name, email, password, avatar, created_at, last_password_change_at, role) values (uuid(), 'Admin admin', 'admin@openwebinars.net','$2a$12$cNocjmlKpOA/iMQZAq5bAeV/zrTepR1xr2pKi6lIRBEiAqrV2/6Ya','https://api.adorable.io/avatars/285/admin@openwebinars.net.png',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ADMIN');
 
@@ -15,6 +17,9 @@ insert into users (id, full_name, email, password, avatar, created_at, last_pass
 insert into users (id, full_name, email, password, avatar, created_at, last_password_change_at, role) values (uuid(), 'Luismi López', 'luismilopez@openwebinars.net','$2a$12$dOmMyKGcAr/8aFn8XUMq1uh1S6ivW2Q0G1TgYlBVQpP5hbIeyGd22','https://api.adorable.io/avatars/285/admin@openwebinars.net.png',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'GESTOR');
 
 insert into vivienda (id, titulo, descripcion, avatar, lating, direccion, codigoPostal, poblacion, provincia, tipo, precio, numHabitaciones, metrosCuadrados, numBanios, tienePiscina, tieneAscensor, tieneGaraje, users ) values (4, 'Casa1', 'Una casa cualquiera', 'avatar.com.org', '45,34', 'Calle calle1', '41010', 'Sevilla', 'Sevilla', 'casa', 30000000.00, 5, 70, 2, true, true, true, uuid('ce1710cfa8d54727b35a59bbf3bf436c') );
+-- ERROR AL EJECUTAR ESTAS SENTENCIAS. INDICA QUE LA COLUMNA CODIGOPOSTAL EN VIVIENDA NO SE ENCUENTRA
+
+
 
 -- Contraseña: Marialopez1
 --insert into users (id, full_name, email, username, password, avatar, created_at, last_password_change_at)

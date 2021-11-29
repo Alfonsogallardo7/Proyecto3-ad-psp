@@ -22,7 +22,7 @@ public class JwtProvider {
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
 
-    @Value("${jwt.secret:elsecretoibericoeselquemasmegusta}")
+    @Value("${jwt.secret:elsecretoibericoeselquemasmegusta}") // TODO Ni el secreto se ha podido cambiar???
     private String jwtSecret;
 
     @Value("${jwt.duration:86400}") // 1 día

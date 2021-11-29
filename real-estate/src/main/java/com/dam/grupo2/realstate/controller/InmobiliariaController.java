@@ -90,7 +90,7 @@ public class InmobiliariaController {
     @ApiResponses({
             @ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Se ha borrado correctamente")})
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")  // TODO Esta petición debería ser idempotente y la primera vez devuelve 204 y la segunda 404
     public ResponseEntity<?> delete(@PathVariable Long id) {
         if(inmoService.findById(id).isEmpty()) {
             return ResponseEntity
